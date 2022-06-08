@@ -1,43 +1,47 @@
 package com.wagner.demo.entities;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.time.Instant;
 import java.util.Objects;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
 @Entity
-@Table(name= "tb_category")
-public class Category implements Serializable {
+@Table(name = "tb_payment")
+public class Payment implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
-	String name;
+	Instant moment;
 	
 	
-	@JsonIgnore	
-	@ManyToMany(mappedBy = "categories")
-	Set<Product> products = new HashSet<>();
-
-	public Category() {
+	@OneToOne
+	@MapsId
+	@JsonIgnore
+	Order order;
+	
+	
+	public Payment() {
 
 	}
 
-	public Category(Integer id, String name) {
+	public Payment(Integer id, Instant moment, Order order) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.moment = moment;
+		this.order = order;
 	}
 
 	public Integer getId() {
@@ -48,19 +52,23 @@ public class Category implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public Instant getMoment() {
+		return moment;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	
-	public Set<Product> getProducts() {
-		return products;
+	public void setMoment(Instant moment) {
+		this.moment = moment;
 	}
 
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -74,8 +82,13 @@ public class Category implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Category other = (Category) obj;
+		Payment other = (Payment) obj;
 		return Objects.equals(id, other.id);
 	}
+	
+	
+	
+	
+	
 
 }
