@@ -47,15 +47,15 @@ public class UserResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
 		return ResponseEntity.created(uri).body(user);
 	}
-	
+
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Integer id){
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody User user ) {
+	public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody User user) {
 		user = service.update(id, user);
 		return ResponseEntity.ok().body(user);
 	}
