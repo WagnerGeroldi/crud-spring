@@ -34,7 +34,7 @@ public class UsersService {
 	}
 	
 	public User update(Integer id, User user) {
-		User entity = repository.getOne(id);
+		User entity = repository.getReferenceById(id);
 		
 		updateData(entity, user);
 		return repository.save(entity);
